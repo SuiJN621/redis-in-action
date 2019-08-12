@@ -1,7 +1,10 @@
 package util;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.print.attribute.standard.Fidelity;
 
@@ -33,18 +36,19 @@ public class RedisClient {
 
     public static void putObject(String objectKey, Object object) {
         Class<?> clazz = object.getClass();
-        Field[] declaredFields = clazz.getDeclaredFields();
-        for (Field field : declaredFields) {
-            field.setAccessible(true);
+        List<Field> declaredFields = Arrays.asList(clazz.getDeclaredFields());
+        Map<String, String> map = declaredFields.stream().collect(Collectors.toMap(Field::getName, f -> {
+            f.setAccessible(true);
+            String value = null;
             try {
-                String value = String.valueOf(field.get(object));
-                String name = field.getName();
-                jedis.hset(objectKey, name, value);
+                value = String.valueOf(f.get(object));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            field.setAccessible(false);
-        }
+            f.setAccessible(false);
+            return value;
+        }));
+        jedis.hmset(objectKey, map);
     }
 
     public static boolean addToSet(String setKey, String value) {

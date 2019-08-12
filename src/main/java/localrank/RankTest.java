@@ -25,24 +25,24 @@ public class RankTest {
     }
 
     @Test
-    public void testGetArticles(){
+    public void testGetArticles() {
         List<Article> articlesByScore = ArticleService.getArticlesByScore(1);
     }
 
     @Test
-    public void testVotes(){
+    public void testVotes() {
         ArticleService.vote("1", "68", false);
     }
 
     @Test
-    public void testUpdateGroup(){
+    public void testUpdateGroup() {
         ArticleService.updateGroup("8", true, Collections.singletonList("tiyu"));
         ArticleService.updateGroup("31", true, Collections.singletonList("tiyu"));
         ArticleService.updateGroup("1", true, Collections.singletonList("tiyu"));
     }
 
     @Test
-    public void testGetGroupArticles(){
+    public void testGetGroupArticles() {
         List<Article> manhua = ArticleService.getGroupArticlesByScore("manhua", 1);
         List<Article> tiyu = ArticleService.getGroupArticlesByScore("tiyu", 1);
     }
