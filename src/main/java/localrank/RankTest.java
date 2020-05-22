@@ -3,6 +3,7 @@ package localrank;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -27,6 +28,7 @@ public class RankTest {
     @Test
     public void testGetArticles() {
         List<Article> articlesByScore = ArticleService.getArticlesByScore(1);
+        System.out.println(articlesByScore);
     }
 
     @Test
@@ -45,5 +47,11 @@ public class RankTest {
     public void testGetGroupArticles() {
         List<Article> manhua = ArticleService.getGroupArticlesByScore("manhua", 1);
         List<Article> tiyu = ArticleService.getGroupArticlesByScore("tiyu", 1);
+    }
+
+    @Test
+    public void testTmp(){
+        String s = UUID.randomUUID().toString();
+        System.out.println(s.length());
     }
 }

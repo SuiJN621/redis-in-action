@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import redis.clients.jedis.ZParams;
 import util.RedisClient;
 
+import static util.RedisKeyConstant.*;
+
 /**
  * @author Sui
  * @date 2019.08.07 10:29
@@ -17,14 +19,6 @@ public class ArticleService {
 
     private static final int WEEK_SECONDS = 7 * 86400;
     private static final double VOTE_SCORE = 432;
-
-    private static final String ARTICLE_PREFIX = "article:";
-    private static final String VOTED_PREFIX = "voted:";
-    private static final String DEVOTED_PREFIX = "devoted:";
-    private static final String TIME_PREFIX = "time:";
-    private static final String SCORE_PREFIX = "score:";
-    private static final String USER_PREFIX = "user:";
-    private static final String GROUP_PREFIX = "group:";
 
     /**
      * 创建文章

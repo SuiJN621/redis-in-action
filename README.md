@@ -1,51 +1,45 @@
 ## redis-in-action
 
-### redis 特点
-内存存储, 持久化, 远程连接(同时多个客户端连接), 可扩展(主从复制, 分片)
+### redis简介
+非关系型数据库（nosql），存储key与value的映射
+与memcached对比：可以持久化；value支持不同数据结构；单线程（m为多线程）
+其他特点：持久化, 可扩展(主从复制, 分片)
 
 ### redis 基本操作
 #### 连接操作
-select db_num: 选择数据库(默认0 通过db_number值修改)  
+select [db_num]: 选择数据库(默认0 通过db_number值修改)  
 
-#### 服务器操作
-client pause timeout: 阻塞客户端响应timeout毫秒  
+#### 服务器操作 
 flushdb: 清空数据库  
 flushall: 清空所有数据库  
 dbsize: 返回当前数据库key数量  
 save: 所有数据快照以RDB文件保存到硬盘  
 lastsave: 最后一次save时间戳  
-config get p: 查询p配置参数的值   
-config set p v: 设置参数p为v, 无需重启  
-slaveof host port: 将机器作为制定服务器的从属服务器(当前为其他从属时, 旧数据丢弃, 同步新数据);
-                   slaveof no one 会使当前服务器变成主服务器, 之前同步数据不丢弃(灾备使用)  
-cluster slots: 返回集群实例详情  
-role: 返回当前实例在集群中的角色(master/slave/sentinel)  
-
-#### 事务操作
-mulit: 开启事务
-exec: 执行事务内的命令
-discard: 取消事务
+config get [p]: 查询p配置参数的值   
+config set [p] [v]: 设置参数p为v, 无需重启  
+slaveof [host] [port]: 将机器作为制定服务器的从属服务器(当前为其他从属时, 旧数据丢弃, 同步新数据);
+                   slaveof no one 会使当前服务器变成主服务器, 之前同步数据不丢弃(灾备使用)    
 
 #### key 操作
-**del key**: 删除指定key      
-**expire key seconds**: 设置key超时时间(秒)    
-expire key unix_timestamp: 设置超时时间(时间戳)    
-**exists key**: 检查key是否存在      
-keys pattern: 返回匹配pattern的key值      
-**ttl key**: 返回key值剩余生存时间(秒); -1表示不存在(2.8之后为-2)/无超时时间    
-**persist key**: 移除key超时时间      
-type key: 返回key类型(none 不存在)      
+**del [key]**: 删除指定key      
+**expire [key] [seconds]**: 设置key超时时间(秒)    
+expire [key] [unix_timestamp]: 设置超时时间(时间戳)    
+**exists [key]**: 检查key是否存在      
+keys [pattern]: 返回匹配pattern的key值      
+**ttl [key]**: 返回key值剩余生存时间(秒); -1表示不存在(2.8之后为-2)/无超时时间    
+**persist [key]**: 移除key超时时间      
+type [key]: 返回key类型(none 不存在)      
 
 #### String 字符串/整数/浮点数
 ##### 修改
-**set key value**: 设置字符串(无视类型)    
-mset(msetnx) key1 value1 key2 value2 ...: 同时设置多个    
-setnx key value: 当key不存在时设置value    
-setex key time value: 同时设置过期时间和值   
-decr/incr key: 返回数值减/加1(不存在先初始化为0)   
-decrby/incrby key amount: 减去/加上指定数量  
-append key tail: tail追加到字符串尾部  
-**getset key value**: 设置并返回原值  
+**set [key] [value]**: 设置字符串(无视类型)    
+mset(msetnx) [key1] [value1] [key2] [value2] ...: 同时设置多个    
+setnx [key] [value]: 当key不存在时设置value    
+setex [key] [time] [value]: 同时设置过期时间和值   
+decr/incr [key]: 返回数值减/加1(不存在先初始化为0)   
+decrby/incrby [key] [amount]: 减去/加上指定数量  
+append [key] [tail]: tail追加到字符串尾部  
+**getset [key] [value]**: 设置并返回原值  
 ##### 获取
 **get key**: 不存在返回nil, 其他类型报错  
 mget key1 key2 ...: 获取多个  

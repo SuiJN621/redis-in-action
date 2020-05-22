@@ -14,4 +14,6 @@ public class Article {
     private Integer votes;
     private Integer devotes;
     private Double time;
+
+
 }
